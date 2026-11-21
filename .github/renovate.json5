@@ -1,0 +1,63 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: ["config:recommended"],
+
+  automerge: true,
+  automergeType: "pr",
+
+  timezone: "Asia/Tokyo",
+  schedule: ["before 6am on monday"],
+  rebaseWhen: "conflicted",
+
+  // 固定バージョンのみ（^ / ~ を使わない）
+  rangeStrategy: "pin",
+
+  // 公開から 7 日未満のリリースは PR にしない（npm / GitHub Actions 共通）。
+  // internalChecksFilter: strict で「保留中の新バージョン」も無視する。
+  minimumReleaseAge: "7 days",
+  internalChecksFilter: "strict",
+
+  // 更新候補の一覧 Issue。
+  dependencyDashboard: true,
+  dependencyDashboardOSVVulnerabilitySummary: "unresolved",
+  osvVulnerabilityAlerts: true,
+
+  semanticCommits: "enabled",
+  commitMessageAction: "更新",
+  commitMessageExtra: "({{currentVersion}} → {{newVersion}})",
+  prConcurrentLimit: 5,
+
+  // セキュリティ更新は 7 日ルールを迂回する
+  vulnerabilityAlerts: {
+    minimumReleaseAge: null,
+    schedule: ["at any time"],
+  },
+
+  packageRules: [
+    {
+      // Batched 相当: 影響の小さい minor / patch は 1 PR に集約
+      groupName: "non-major dependencies",
+      matchManagers: ["npm"],
+      matchUpdateTypes: ["minor", "patch"],
+    },
+    {
+      groupName: "vite+",
+      matchPackageNames: ["vite-plus", "@voidzero-dev/vite-plus-core"],
+      separateMajorMinor: false,
+    },
+    {
+      groupName: "playwright",
+      matchPackageNames: ["@playwright/test", "playwright", "playwright-core"],
+    },
+    {
+      // step の uses: は actions.lock が commit を固定するのでワークフロー側はタグのままでよい。
+      groupName: "github-actions",
+      matchManagers: ["github-actions"],
+    },
+    {
+      // @vitest/coverage-v8 は vite-plus 同梱の vitest とバージョンを合わせる必要があるため自動更新を除外。
+      matchPackageNames: ["@vitest/coverage-v8"],
+      enabled: false,
+    },
+  ],
+}

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chat-tab name="メインタブ">
+  <chat from="yHGh8JUS" name="プレイヤー" imageIdentifier="none_icon" timestamp="1794338210658" tag="DiceBot">1D100&lt;=50</chat>
+  <chat originFrom="yHGh8JUS" from="System-BCDice" timestamp="1794338210659" tag="system dicebot" name="DiceBot : プレイヤー">(1D100&lt;=50) ＞ 85 ＞ 失敗</chat>
+</chat-tab>

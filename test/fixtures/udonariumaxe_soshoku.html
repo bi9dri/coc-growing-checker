@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja" data-style="messenger">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="Udonarium Axe">
+<title>全タブ</title>
+<style>
+:root{--gap:2px;--msg-pad:10px 14px;--msg-bg:transparent;--radius:6px;--radius-sm:4px;--pt-radius:50%;--pt-border:0;--head-bg:var(--paper);--head-border:1px solid var(--line);--head-shadow:none;--title:var(--ink);--name-mix:85%;--oc-ink:#fff;--flavor:none}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.85;-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+.log{--pt:48px;max-width:860px;margin:0 auto;padding:56px 28px 72px}
+.head{position:relative;margin:0 0 36px;padding:36px 28px 30px;text-align:center;background:var(--head-bg);border:var(--head-border);border-radius:var(--radius);box-shadow:var(--head-shadow)}
+.head::before{content:var(--flavor);display:block;margin-bottom:12px;color:var(--accent);font-family:var(--font-mono);font-size:11px;letter-spacing:.42em}
+.kicker{margin:0 0 6px;color:var(--muted);font-size:13px;letter-spacing:.14em}
+.title{margin:0;color:var(--title);font-family:var(--font-head);font-size:clamp(26px,4.6vw,40px);font-weight:700;line-height:1.3;letter-spacing:.08em;overflow-wrap:anywhere}
+.meta{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 20px;margin:14px 0 0;color:var(--muted);font-family:var(--font-mono);font-size:12.5px;letter-spacing:.04em}
+.msg,.cast li{--name:color-mix(in oklab,var(--c) var(--name-mix),var(--ink))}
+.cast{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:18px 0 0;padding:0;list-style:none}
+.cast li{display:inline-flex;align-items:center;gap:7px;padding:1px 11px;border:1px solid var(--line);border-radius:999px;background:var(--chip);font-size:12.5px;line-height:1.9}
+.cast li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+.tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:20px 0 0}
+.tabs button{padding:3px 13px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--muted);font:inherit;font-size:12.5px;cursor:pointer}
+.tabs button:hover{border-color:var(--accent);color:var(--ink)}
+.tabs button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+.body{display:flex;flex-direction:column;gap:var(--gap)}
+.day{display:flex;align-items:center;gap:16px;margin:26px 0 10px;color:var(--muted);font-family:var(--font-mono);font-size:12px;letter-spacing:.24em}
+.day::before,.day::after{content:"";flex:1;height:1px;background:var(--line)}
+.msg{position:relative;display:grid;grid-template-columns:var(--pt) minmax(0,1fr);gap:0 14px;padding:var(--msg-pad);background:var(--msg-bg);border-radius:var(--radius)}
+.msg.cont{padding-top:0}
+.cont .pt{height:0;visibility:hidden}
+.cont .hd{display:none}
+.pt{display:grid;place-items:center;width:var(--pt);height:var(--pt);overflow:hidden;border:var(--pt-border);border-radius:var(--pt-radius);background:var(--chip)}
+.pt img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 0}
+.ini{color:var(--name);font-family:var(--font-head);font-size:calc(var(--pt) * .42);font-weight:700}
+.bd{min-width:0}
+.hd{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;margin:0 0 2px}
+.nm{color:var(--name);font-family:var(--font-head);font-weight:700;letter-spacing:.04em}
+.tg{padding:0 8px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:11px;line-height:1.7}
+.hd time{margin-left:auto;color:var(--muted);font-family:var(--font-mono);font-size:11.5px;letter-spacing:.04em}
+.tx{overflow-wrap:anywhere}
+.tx rt{font-size:.5em}
+.ed{margin-left:8px;color:var(--muted);font-size:11px}
+.ref{display:flex;gap:8px;max-width:100%;margin:4px 0 6px;padding:5px 12px;border-left:3px solid var(--accent);border-radius:0 var(--radius-sm) var(--radius-sm) 0;background:var(--quote-bg);color:var(--muted);font-size:13px;line-height:1.6}
+.rn{flex:none;font-weight:700}
+.rt{display:-webkit-box;min-width:0;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+.att{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.rx{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.rx span{font-size:.78em;line-height:1.6;padding:0 8px;border:1px solid var(--line);border-radius:999px;opacity:.85}
+.att img{display:block;max-width:min(100%,320px);max-height:260px;border:1px solid var(--line);border-radius:var(--radius-sm)}
+.ooc{opacity:.7}
+.ooc .tx{font-size:.92em}
+.seal{color:var(--muted);letter-spacing:.2em}
+.sys{margin:8px 0;padding:0 8%;color:var(--muted);font-size:12.5px;line-height:1.7;text-align:center}
+.sys span{display:inline-block;padding:3px 16px;border-radius:999px;background:var(--chip)}
+.roll{grid-template-columns:24px minmax(0,1fr);gap:0 10px;margin-left:calc(var(--pt) + 14px);padding:8px 14px;background:var(--roll-bg);border:var(--roll-border);border-radius:var(--radius-sm)}
+.roll .pt{width:24px;height:24px;border:0;border-radius:0;background:none;color:var(--accent)}
+.roll .pt svg{width:22px;height:22px}
+.roll .tx{font-family:var(--font-mono);font-size:13.5px;line-height:1.7}
+.res{padding:0 2px;color:var(--ink);font-size:1.3em;font-weight:700}
+.crit{--oc:var(--crit)}
+.fumble{--oc:var(--fumble)}
+.ok{--oc:var(--ok)}
+.ng{--oc:var(--ng)}
+.crit .res,.fumble .res{color:var(--oc)}
+.oc{padding:0 9px;border-radius:999px;background:var(--oc);color:var(--oc-ink);font-size:11px;font-weight:700;letter-spacing:.1em;line-height:1.8}
+.foot{margin-top:56px;color:var(--muted);font-size:11.5px;letter-spacing:.12em;text-align:center}
+@media (max-width:640px){.log{--pt:38px;padding:24px 12px 48px}.head{padding:26px 16px 22px}.msg{gap:0 10px}.roll{margin-left:0}}
+@media print{
+:root{color-scheme:light;--bg:#fff!important;--paper:#fff!important;--ink:#111!important;--muted:#555!important;--line:#ccc!important;--chip:#f2f2f2!important;--quote-bg:#f5f5f5!important;--roll-bg:#fff!important;--roll-border:1px solid #ccc!important;--head-bg:#fff!important;--head-shadow:none!important;--msg-bg:transparent!important;--title:#111!important}
+body{background:#fff!important;text-shadow:none!important}
+body::before,body::after{display:none!important}
+.log{margin:0 auto!important;background:#fff!important;box-shadow:none!important}
+.title{background:none!important;color:#111!important;text-shadow:none!important;filter:none!important}
+.tabs{display:none}
+.msg,.sys{break-inside:avoid}
+}
+
+:root{--bg:#dfe5ec;--paper:#ffffff;--ink:#1e2733;--muted:#6a7686;--line:#d3dae3;--accent:#2f6fed;--accent-ink:#fff;--chip:#eef2f7;--quote-bg:rgba(255,255,255,.6);--roll-bg:#fff;--roll-border:0;--crit:#d98b00;--fumble:#e0245e;--ok:#12a36e;--ng:#8a95a5;--font-body:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic UI","Noto Sans JP","Meiryo",system-ui,sans-serif;--font-head:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic UI","Noto Sans JP","Meiryo",system-ui,sans-serif;--font-mono:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic UI","Noto Sans JP","Meiryo",system-ui,sans-serif;--head-bg:rgba(255,255,255,.9);--head-border:0;--head-shadow:0 10px 30px rgba(30,39,51,.08);--radius:20px;--radius-sm:14px;--name-mix:78%;--gap:6px;--msg-pad:0}
+body{background:linear-gradient(180deg,#e8edf3 0%,#d9e0e9 100%) fixed}
+.log{max-width:760px}
+.head{border-radius:22px}
+.title{font-size:clamp(22px,4vw,30px);letter-spacing:.04em}
+.hd{margin:0 0 3px 4px;font-size:12px}
+.nm{font-size:12.5px;letter-spacing:.02em}
+.hd time{margin-left:0}
+.tx{display:inline-block;max-width:100%;padding:9px 15px;border-radius:4px 18px 18px 18px;background:color-mix(in oklab,var(--c) 6%,#fff);box-shadow:0 1px 2px rgba(30,39,51,.1);line-height:1.7}
+.cont .tx{border-radius:18px}
+.ref{margin:0 0 4px;padding:6px 12px;border-left:0;border-radius:12px}
+.att img{border:0;border-radius:14px;box-shadow:0 1px 3px rgba(30,39,51,.15)}
+.roll{width:fit-content;max-width:calc(100% - var(--pt) - 14px);padding:9px 15px;border-radius:16px;box-shadow:0 1px 2px rgba(30,39,51,.1)}
+.roll .tx{display:block;padding:0;border-radius:0;background:none;box-shadow:none}
+.day{justify-content:center;font-family:var(--font-body);letter-spacing:.08em}
+.day::before,.day::after{display:none}
+.day span{padding:2px 14px;border-radius:999px;background:rgba(30,39,51,.28);color:#fff;font-size:11.5px}
+.sys span{background:rgba(30,39,51,.08);font-size:12px}
+.oc{letter-spacing:.04em}
+@media (max-width:640px){.roll{max-width:100%}}
+.chat-deco-bold{font-weight:700}.chat-deco-italic{display:inline-block;transform:skewX(-12deg)}.chat-deco-strike{text-decoration:line-through}.chat-size-small{font-size:.8em}.chat-size-large{font-size:1.3em}.chat-size-huge{font-size:1.7em;line-height:1.25}.chat-font-mincho{font-family:'Shippori Mincho','Yu Mincho',YuMincho,'Hiragino Mincho ProN','Noto Serif JP',serif}.chat-font-rounded{font-family:'Zen Maru Gothic','Hiragino Maru Gothic ProN',sans-serif}.chat-font-hand{font-family:'Yomogi',sans-serif}.chat-font-pop{font-family:'Mochiy Pop One',sans-serif}.chat-font-pixel{font-family:'DotGothic16',sans-serif}.chat-font-gothic{font-family:sans-serif}</style>
+<style>ruby.chat-ruby{ruby-align:space-around;ruby-position:over}ruby.chat-ruby rt{font-size:0.65em;font-weight:700;line-height:1.15}</style></head>
+<body>
+<div class="log">
+<header class="head"><h1 class="title">全タブ</h1><p class="meta"><span>2026/11/11 04:13 – 04:13</span><span>2 件の発言</span></p><ul class="cast"><li style="--c:#000000">プレイヤー</li></ul><nav class="tabs"><button type="button" data-tab="*" aria-pressed="true">すべて</button><button type="button" data-tab="0" aria-pressed="false">メインタブ</button><button type="button" data-tab="1" aria-pressed="false">サブタブ</button></nav></header>
+<main class="body">
+<div class="day"><span>2026/11/11</span></div>
+<article class="msg" data-t="0" style="--c:#000000"><div class="pt"><img data-img-key="i0" alt=""></div><div class="bd"><div class="hd"><span class="nm">プレイヤー</span><span class="tg">メインタブ</span><time>04:13</time></div><div class="tx">1D100&lt;=50 </div></div></article>
+<article class="msg roll ng" data-t="0" style="--c:#000000"><div class="pt"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.5" fill="currentColor"/></svg></div><div class="bd"><div class="hd"><span class="nm">プレイヤー</span><span class="oc">失敗</span><span class="tg">メインタブ</span><time>04:13</time></div><div class="tx">DiceBot : (1D100&lt;=50) → 55 → <strong class="res">失敗</strong></div></div></article>
+</main>
+<footer class="foot">Udonarium Axe で書き出し · 2026/11/11 04:16</footer>
+</div>
+<script>(function(){var n=document.querySelector(".tabs");if(!n)return;n.addEventListener("click",function(e){var b=e.target.closest("button[data-tab]");if(!b)return;var t=b.getAttribute("data-tab");n.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed",String(x===b));});document.querySelectorAll("[data-t]").forEach(function(el){el.hidden=t!=="*"&&el.getAttribute("data-t")!==t;});});})();</script>
+<script>(function(){var m={"i0":"data:image/webp;base64,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"};document.querySelectorAll('img[data-img-key]').forEach(function(el){var k=el.getAttribute('data-img-key');if(k&&Object.prototype.hasOwnProperty.call(m,k))el.setAttribute('src',m[k]);});})();</script>
+</body>
+</html>

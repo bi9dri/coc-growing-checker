@@ -1,0 +1,54 @@
+{
+  "messages": [
+    {
+      "name": "橘 悠真 (仮名)",
+      "color": "#888888",
+      "text": "CC<=70 【正気度ロール】",
+      "type": "text",
+      "extend": {
+        "roll": {
+          "result": "(1D100<=70) ボーナス・ペナルティダイス[0] ＞ 23 ＞ 23 ＞ ハード成功",
+          "dices": [
+            { "value": 20, "kind": "tens_d10", "faces": 10 },
+            { "kind": "normal", "faces": 10, "value": 3 }
+          ],
+          "secret": false,
+          "success": true,
+          "failure": false,
+          "critical": false,
+          "fumble": false
+        }
+      },
+      "edited": false,
+      "channel": "main",
+      "channelName": "main",
+      "createdAt": 1700000000000,
+      "updatedAt": 1700000000000
+    },
+    {
+      "name": "白石 透 ",
+      "color": "#888888",
+      "text": "CC<=70 【近接戦闘（格闘）】",
+      "type": "text",
+      "extend": {
+        "roll": {
+          "result": "(1D100<=70) ボーナス・ペナルティダイス[0] ＞ 34 ＞ 34 ＞ ハード成功",
+          "dices": [
+            { "faces": 10, "value": 30, "kind": "tens_d10" },
+            { "kind": "normal", "value": 4, "faces": 10 }
+          ],
+          "secret": false,
+          "success": true,
+          "failure": false,
+          "critical": false,
+          "fumble": false
+        }
+      },
+      "edited": false,
+      "channel": "other",
+      "channelName": "other",
+      "createdAt": 1700000025000,
+      "updatedAt": 1700000025000
+    }
+  ]
+}

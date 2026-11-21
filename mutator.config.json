@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/@mizchi/mutator/schema/mutator.config.schema.json",
+  "vitestConfig": "vite.config.ts",
+  "include": ["src/domain/**/*.ts"],
+  "exclude": ["src/domain/**/*.test.ts", "src/domain/**/types.ts"],
+  "reporters": ["text"],
+  "concurrency": 4,
+  "thresholds": {
+    "high": 90,
+    "low": 80,
+    "break": 75
+  }
+}

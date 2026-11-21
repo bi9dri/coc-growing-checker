@@ -1,0 +1,21 @@
+# pnpm 11+ は依存の build script を既定で deny する。postinstall を持つものだけ許可する。
+allowBuilds:
+  esbuild: true
+  workerd: true
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@1.6.0
+  vite-plus: 1.6.0
+minimumReleaseAgeExclude:
+  - "@mizchi/mutator-core@0.4.5"
+  - "@mizchi/mutator-jest@0.4.5"
+  - "@mizchi/mutator-playwright@0.4.5"
+  - "@mizchi/mutator-typecheck@0.4.5"
+  - "@mizchi/mutator-vitest@0.4.5"
+  - "@mizchi/mutator@0.4.5"
+overrides:
+  vite@*: "catalog:"
+peerDependencyRules:
+  allowAny:
+    - vite
+  allowedVersions:
+    vite: "*"
