@@ -1,70 +1,48 @@
 {
-  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
-  extends: [
-    'config:recommended',
-  ],
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: ["config:recommended"],
   automerge: true,
-  automergeType: 'pr',
-  timezone: 'Asia/Tokyo',
-  schedule: [
-    'before 6am on monday',
-  ],
-  rebaseWhen: 'conflicted',
-  rangeStrategy: 'pin',
-  minimumReleaseAge: '7 days',
-  internalChecksFilter: 'strict',
+  automergeType: "pr",
+  timezone: "Asia/Tokyo",
+  schedule: ["before 6am on monday"],
+  rebaseWhen: "conflicted",
+  rangeStrategy: "pin",
+  minimumReleaseAge: "7 days",
+  internalChecksFilter: "strict",
   dependencyDashboard: {
     enabled: true,
-    osvVulnerabilitySummary: 'unresolved',
+    osvVulnerabilitySummary: "unresolved",
   },
   osvVulnerabilityAlerts: true,
-  semanticCommits: 'enabled',
-  commitMessageAction: '更新',
-  commitMessageExtra: '({{currentVersion}} → {{newVersion}})',
+  semanticCommits: "enabled",
+  commitMessageAction: "更新",
+  commitMessageExtra: "({{currentVersion}} → {{newVersion}})",
   prConcurrentLimit: 5,
   vulnerabilityAlerts: {
     minimumReleaseAge: null,
-    schedule: [
-      'at any time',
-    ],
+    schedule: ["at any time"],
   },
   packageRules: [
     {
-      groupName: 'non-major dependencies',
-      matchManagers: [
-        'npm',
-      ],
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-      ],
+      groupName: "non-major dependencies",
+      matchManagers: ["npm"],
+      matchUpdateTypes: ["minor", "patch"],
     },
     {
-      groupName: 'vite+',
-      matchPackageNames: [
-        'vite-plus',
-        '@voidzero-dev/vite-plus-core',
-      ],
+      groupName: "vite+",
+      matchPackageNames: ["vite-plus", "@voidzero-dev/vite-plus-core"],
       separateMajorMinor: false,
     },
     {
-      groupName: 'playwright',
-      matchPackageNames: [
-        '@playwright/test',
-        'playwright',
-        'playwright-core',
-      ],
+      groupName: "playwright",
+      matchPackageNames: ["@playwright/test", "playwright", "playwright-core"],
     },
     {
-      groupName: 'github-actions',
-      matchManagers: [
-        'github-actions',
-      ],
+      groupName: "github-actions",
+      matchManagers: ["github-actions"],
     },
     {
-      matchPackageNames: [
-        '@vitest/coverage-v8',
-      ],
+      matchPackageNames: ["@vitest/coverage-v8"],
       enabled: false,
     },
   ],
