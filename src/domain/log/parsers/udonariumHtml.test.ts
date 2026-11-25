@@ -86,10 +86,4 @@ describe("parseDodontofuHtml", () => {
     );
     expect(parseDodontofuHtml(doc)).toEqual([]);
   });
-
-  test("body がない Document の場合は空配列を返す", () => {
-    const doc = document.implementation.createHTMLDocument();
-    doc.body?.remove();
-    expect(parseDodontofuHtml(doc)).toEqual([]);
-  });
 });

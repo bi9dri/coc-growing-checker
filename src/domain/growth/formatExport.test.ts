@@ -73,6 +73,12 @@ describe("formatCharacterExport & formatAllExport", () => {
           specialization: "拳銃",
           skillValue: 45,
         },
+        {
+          skillName: "射撃（サブマシンガン）",
+          baseSkill: "射撃",
+          specialization: "サブマシンガン",
+          skillValue: 20,
+        },
         { skillName: "聞き耳", baseSkill: "聞き耳", skillValue: 50 },
         { skillName: "心理学", baseSkill: "心理学", skillValue: 50 },
       ],
@@ -90,6 +96,19 @@ describe("formatCharacterExport & formatAllExport", () => {
           after: 50,
           growth: { total: 5, text: "(1D10) ＞ 5" },
           transferBonus: 0,
+        },
+      ],
+      [
+        "射撃（サブマシンガン）",
+        {
+          skillName: "射撃（サブマシンガン）",
+          baseSkill: "射撃",
+          specialization: "サブマシンガン",
+          source: "experience",
+          before: 20,
+          after: 32,
+          growth: { total: 2, text: "(1D10) ＞ 2" },
+          transferBonus: 10,
         },
       ],
       [
@@ -134,6 +153,7 @@ describe("formatCharacterExport & formatAllExport", () => {
       [
         "【白石 透】",
         "・射撃（拳銃）: +5% (45% → 50%)",
+        "・射撃（サブマシンガン）: +2% → +10% 波及 (20% → 32%)",
         "・聞き耳: 1D100=80 [成長]",
         "・心理学",
         "・射撃（ライフル）: +10% 波及 (20% → 30%)",

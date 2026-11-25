@@ -191,13 +191,15 @@ describe("rollGrowth: 90%到達時のSAN回復", () => {
     }
   });
 
-  test("幸運は技能ではないため 90 以上に達しても SAN 回復は振らない", () => {
-    const dice = scripted({ "1D100": [99], "1D10": [7] });
-    const [growth] = rollGrowth(character([skill("幸運", 85)]), settings7(), 7, dice);
+  test("幸運・Luck は技能ではないため 90 以上に達しても SAN 回復は振らない", () => {
+    for (const name of ["幸運", "Luck"]) {
+      const dice = scripted({ "1D100": [99], "1D10": [7] });
+      const [growth] = rollGrowth(character([skill(name, 85)]), settings7(), 7, dice);
 
-    expect(growth).toMatchObject({ after: 92 });
-    expect(growth).not.toHaveProperty("sanityRecovery");
-    expect(dice.calls).not.toContain("2D6");
+      expect(growth).toMatchObject({ after: 92 });
+      expect(growth).not.toHaveProperty("sanityRecovery");
+      expect(dice.calls).not.toContain("2D6");
+    }
   });
 });
 
@@ -270,6 +272,18 @@ describe("rollGrowth: 専門分野：転換可能な技能", () => {
       skillName: "近接戦闘（キック）",
       after: 90,
       transferBonus: 5,
+    });
+
+    const withHighCandidate = rollGrowth(
+      character([skill("近接戦闘（格闘）", 45), skill("近接戦闘（ナイフ）", 95)]),
+      settings7({ transferableSkills: true }),
+      7,
+      scripted({ "1D100": [99, 10], "1D10": [5] }),
+    );
+    expect(withHighCandidate.find((g) => g.skillName === "近接戦闘（ナイフ）")).toMatchObject({
+      before: 95,
+      after: 95,
+      transferBonus: 0,
     });
   });
 
@@ -470,15 +484,23 @@ describe("rollGrowth: 専門分野：転換可能な技能", () => {
 
     test("rollSingleExperienceCheck: 存在しない技能名の場合は現状を維持する", () => {
       const char = character([skill("目星", 50)]);
+      const existing = {
+        skillName: "目星",
+        baseSkill: "目星",
+        source: "experience" as const,
+        before: 50,
+        after: 55,
+        transferBonus: 0,
+      };
       const res = rollSingleExperienceCheck(
         char,
         "図書館",
         settings7(),
         7,
         scripted({}),
-        new Map(),
+        new Map([["目星", existing]]),
       );
-      expect(res).toEqual([]);
+      expect(res).toEqual([existing]);
     });
 
     test("rollSingleGrowthDice & rollSingleSanityRecovery: 個別に成長とSAN回復を振る", () => {
@@ -551,6 +573,17 @@ describe("rollGrowth: 専門分野：転換可能な技能", () => {
       expect(res.find((g) => g.skillName === "射撃（拳銃）")?.after).toBe(50);
       expect(res.find((g) => g.skillName === "射撃（ライフル）")?.after).toBe(35);
       expect(res.find((g) => g.skillName === "射撃（散弾銃）")?.after).toBe(40);
+
+      const noLongerCrossed = rollSingleGrowthDice(
+        char,
+        "射撃（拳銃）",
+        settings7({ experienceCheck: false, transferableSkills: true }),
+        scripted({ "1D10": [1] }),
+        initial,
+      );
+      expect(noLongerCrossed.find((g) => g.skillName === "射撃（拳銃）")?.after).toBe(46);
+      expect(noLongerCrossed.find((g) => g.skillName === "射撃（ライフル）")?.after).toBe(25);
+      expect(noLongerCrossed.find((g) => g.skillName === "射撃（散弾銃）")).toBeUndefined();
     });
 
     test("rollSingleSkill: 1技能の全ステップを一括ロールする", () => {

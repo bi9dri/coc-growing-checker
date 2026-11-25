@@ -23,6 +23,7 @@ describe("createBcdiceRoller", () => {
 
   test("固定値はダイスを振らずにそのまま返す", () => {
     expect(dice.roll("5")).toEqual({ total: 5, text: "5" });
+    expect(dice.roll("10")).toEqual({ total: 10, text: "10" });
   });
 
   test("解釈できない式はエラー", () => {

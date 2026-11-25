@@ -34,4 +34,21 @@ describe("parseTekeyHtml", () => {
       { channel: "main", characterName: "PL2", text: "タブ不明" },
     ]);
   });
+
+  test("tab-list がなくても既定タブ名を解決し、Tekey のログイン通知のみを除外する", () => {
+    const doc = new DOMParser().parseFromString(
+      `
+      <div class="chatlog">
+        <div class="tab1"><b>Tekey:</b>PL1がログインしました</div>
+        <div class="tab2"><b>Tekey:</b>通常メッセージ</div>
+        <div class="tab3"><b>PL1:</b>ログインしました</div>
+      </div>
+      `,
+      "text/html",
+    );
+    expect(parseTekeyHtml(doc)).toEqual([
+      { channel: "サブ", characterName: "Tekey", text: "通常メッセージ" },
+      { channel: "雑談", characterName: "PL1", text: "ログインしました" },
+    ]);
+  });
 });

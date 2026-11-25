@@ -109,4 +109,61 @@ describe("pairDiceBotMessages", () => {
     const paired = pairDiceBotMessages(raw);
     expect(paired).toEqual(raw);
   });
+
+  test("チャンネル違い・キャラ名違い・既ロール済みの直前発言には紐付けない", () => {
+    const raw: RawLogMessage[] = [
+      { channel: "main", characterName: "PL1", text: "CC<=50 【目星】" },
+      {
+        channel: "other",
+        characterName: "<BCDice：PL1>",
+        text: "(1D100<=50) ＞ 20 ＞ 成功",
+      },
+      { channel: "main", characterName: "PL1", text: "CC<=50 【聞き耳】" },
+      {
+        channel: "main",
+        characterName: "<BCDice：PL2>",
+        text: "(1D100<=50) ＞ 30 ＞ 成功",
+      },
+      {
+        channel: "main",
+        characterName: "PL3",
+        text: "CC<=50 【図書館】",
+        rollResult: "(1D100<=50) ＞ 10 ＞ 成功",
+      },
+      {
+        channel: "main",
+        characterName: "<BCDice：PL3>",
+        text: "(1D100<=50) ＞ 40 ＞ 成功",
+      },
+    ];
+    const paired = pairDiceBotMessages(raw);
+    expect(paired).toEqual([
+      { channel: "main", characterName: "PL1", text: "CC<=50 【目星】" },
+      {
+        channel: "other",
+        characterName: "PL1",
+        text: "",
+        rollResult: "(1D100<=50) ＞ 20 ＞ 成功",
+      },
+      { channel: "main", characterName: "PL1", text: "CC<=50 【聞き耳】" },
+      {
+        channel: "main",
+        characterName: "PL2",
+        text: "",
+        rollResult: "(1D100<=50) ＞ 30 ＞ 成功",
+      },
+      {
+        channel: "main",
+        characterName: "PL3",
+        text: "CC<=50 【図書館】",
+        rollResult: "(1D100<=50) ＞ 10 ＞ 成功",
+      },
+      {
+        channel: "main",
+        characterName: "PL3",
+        text: "",
+        rollResult: "(1D100<=50) ＞ 40 ＞ 成功",
+      },
+    ]);
+  });
 });

@@ -127,16 +127,17 @@ describe("collectCandidates", () => {
     ).toEqual(["目星"]);
   });
 
-  test("幸運を無条件成長にする設定なら、失敗したロールでも候補に含める", () => {
+  test("幸運を無条件成長にする設定なら、幸運は失敗でも候補に含め通常技能の失敗は含めない", () => {
     const rolls = [
       roll({ category: "luck", skillName: "幸運", baseSkill: "幸運", outcome: "failure" }),
+      roll({ skillName: "目星", baseSkill: "目星", outcome: "failure" }),
     ];
     const s = settings({
       exclude: { ...DEFAULT_CHECK_SETTINGS.exclude, luck: false },
       luckCandidateCondition: "unconditional",
     });
 
-    expect(collectCandidates(rolls, s)[0]?.candidates).toHaveLength(1);
+    expect(collectCandidates(rolls, s)[0]?.candidates.map((c) => c.skillName)).toEqual(["幸運"]);
   });
 
   test("幸運が条件付き設定なら、失敗ロールは候補に含まれない", () => {
@@ -160,7 +161,11 @@ describe("collectCandidates", () => {
     const [a] = collectCandidates(rolls, s);
 
     expect(a?.candidates.map((c) => c.skillName)).toEqual(["目星", "幸運"]);
-    expect(a?.candidates.find((c) => c.skillName === "幸運")?.skillValue).toBe(50);
+    expect(a?.candidates.find((c) => c.skillName === "幸運")).toEqual({
+      skillName: "幸運",
+      baseSkill: "幸運",
+      skillValue: 50,
+    });
   });
 
   test("幸運設定が all でログに幸運がある場合はその値を採用する", () => {

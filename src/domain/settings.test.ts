@@ -98,6 +98,17 @@ describe("settings", () => {
       isDefaultSettings(
         {
           ...DEFAULT_CHECK_SETTINGS,
+          eligibleOutcomes: [...DEFAULT_CHECK_SETTINGS.eligibleOutcomes, "fumble"],
+        },
+        defaultGrowthSettings(7),
+        7,
+      ),
+    ).toBe(false);
+
+    expect(
+      isDefaultSettings(
+        {
+          ...DEFAULT_CHECK_SETTINGS,
           exclude: { ...DEFAULT_CHECK_SETTINGS.exclude, creditRating: false },
         },
         defaultGrowthSettings(7),
