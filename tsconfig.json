@@ -5,6 +5,7 @@
     "test/**/*.ts",
     "tests/**/*.ts",
     "vite.config.ts",
+    "vitest.mutator.config.ts",
     "playwright.vrt.config.ts"
   ],
   "exclude": ["node_modules"],

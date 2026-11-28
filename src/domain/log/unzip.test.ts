@@ -137,6 +137,16 @@ describe("extractLogFromZip", () => {
     expect(result.content).toContain("<chat-tab");
   });
 
+  test("他のログファイルがあっても data.xml を優先抽出する", async () => {
+    const zip = createTestZip([
+      { name: "memo.txt", content: "memo content" },
+      { name: "data.xml", content: "<chat-tab />" },
+    ]);
+    const result = await extractLogFromZip(zip);
+    expect(result.filename).toBe("data.xml");
+    expect(result.content).toBe("<chat-tab />");
+  });
+
   test("すべて/all/data.xml がなく、メインを含むファイルがあればそれを抽出する", async () => {
     const zip = createTestZip([
       { name: "sub.html", content: "sub content" },
